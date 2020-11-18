@@ -19,6 +19,8 @@ function error(error) {
   // Parameter error berasal dari Promise.reject()
   console.log("Error : " + error);
 }
+
+
 // Blok kode untuk melakukan request data json
 function getTeams() {
   fetch(base_url + "teams", {
@@ -75,20 +77,121 @@ function getTeamById() {
     .then(json)
     .then(function (data) {
       // Objek JavaScript dari response.json() masuk lewat variabel data.
-      console.log(data);
+      console.log(data.squad);
+      console.log(data.squad.length);
       // Menyusun komponen card artikel secara dinamis
+
+      var squadHTML ="";
+
+        data.squad.forEach(function(squads, index, array){
+          var dateBirth = new Date(squads.dateOfBirth);
+
+          squadHTML += `                                                         
+              <tr>
+                <td>${squads.name}</td>                
+                <td>${squads.nationality}</td>
+                <td>${dateBirth.getDate() + '-' + dateBirth.getMonth() + '-' + dateBirth.getFullYear()}</td>
+                <td>${squads.position}</td>
+                <td>${squads.role}</td>
+                
+              </tr>            
+            
+          `;
+
+        })
+
+
       var teamHTML = `
-          <div class="card">
+          <div class="card center-align">
             <div class="card-image waves-effect waves-block waves-light">
-              <img src="${data.result.cover}" />
+              <img src="${data.crestUrl}" width="50px" />
             </div>
             <div class="card-content">
-              <span class="card-title">${data.result.post_title}</span>
-              ${snarkdown(data.result.post_content)}
+              <span class="card-title">${data.name}</span>
+                  <p>${data.address}</p>
+                  <p>${data.phone}</p>
+                  <p>${data.website}</p>
+                  <p>${data.email}</p>
+                  <p>${data.venue}</p>                 
             </div>
           </div>
+          <h4 class="center-align">DAFTAR SQUAD</h4>
+          <table class="striped responsive-table">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Kebangsaan</th>
+                <th>Tanggal Lahir</th>
+                <th>Posisi</th>
+                <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+          ${squadHTML}
+          </tbody>
+          </table>          
         `;
+
       // Sisipkan komponen card ke dalam elemen dengan id #content
       document.getElementById("body-content").innerHTML = teamHTML;
+      // document.getElementById("body-content-squad").innerHTML = squadHTML;
     });
+}
+
+
+function getStandings() {
+  fetch(base_url + "competitions/2021/standings", {
+    mode: 'cors',
+    method: 'GET',
+    headers: {
+      'X-Auth-Token': '6d8933480de240d781d7edeafc54d302',
+    }
+  })
+    .then(status)
+    .then(json)
+    .then(function (data) {
+      console.log(data.standings);
+      
+      // Objek/array JavaScript dari response.json() masuk lewat data.
+      // Menyusun komponen card artikel secara dinamis
+      var standingstdHTML = "";
+
+      var standingsHTML = `
+          <table class="responsive-table highlight">
+            <tr>
+              <th rowspan="2">Position</th>    
+              <th colspan="2">Team</th>
+              <th colspan="4">Klasmen</th>
+            </tr>
+            <tr>
+              <th>Logo</th>
+              <th>Nama</th>    
+              <th>Menang</th>
+              <th>Seri</th>
+              <th>Kalah</th>
+              <th>Point</th>              
+            </tr>      
+      `;
+
+
+      data.standings.forEach(function (standing) {
+        standingstdHTML += `
+        
+          <tr>
+            <td>1</td>
+            <td><img src="https://picsum.photos/seed/picsum/200/300" height="50px" width="50px"></td>
+            <td>${ standing.position }</td>
+            <td>8</td>
+            <td>9</td>
+            <td>0</td>
+            <td>20</td>
+          </tr>
+        
+      </table>
+            `;
+      });
+      // Sisipkan komponen card ke dalam elemen dengan id #content
+      document.getElementById("teams").innerHTML = standingsHTML;
+    })
+    .catch(error);
 }
