@@ -101,17 +101,15 @@ function getTeams() {
 function getTeamById() {
 
   if ('caches' in window) {
-    caches.match(base_url + "teams"+ idParam).then(function (response) {
+    caches.match(base_url + "teams" + idParam).then(function (response) {
       if (response) {
         response.json().then(function (data) {
-          var teamsHTML = "";
-          data.teams.forEach(function (team) {
-            var squadHTML = "";
+          var squadHTML = "";
 
-            data.squad.forEach(function (squads, index, array) {
-              var dateBirth = new Date(squads.dateOfBirth);
+          data.squad.forEach(function (squads) {
+            var dateBirth = new Date(squads.dateOfBirth);
 
-              squadHTML += `                                                         
+            squadHTML += `                                                         
               <tr>
                 <td>${squads.name}</td>                
                 <td>${squads.nationality}</td>
@@ -120,9 +118,9 @@ function getTeamById() {
                 <td>${squads.role}</td>               
               </tr>                        
           `;
-            })
+          })
 
-            var teamHTML = `
+          var teamHTML = `
           <div class="card center-align">
             <div class="card-image waves-effect waves-block waves-light">
               <img src="${data.crestUrl}" width="50px" />
@@ -152,7 +150,6 @@ function getTeamById() {
           </tbody>
           </table>          
         `;
-          });
 
           // Sisipkan komponen card ke dalam elemen dengan id #content
           document.getElementById("body-content").innerHTML = teamHTML;
@@ -160,7 +157,7 @@ function getTeamById() {
         })
       }
     })
-  } 
+  }
 
   // Ambil nilai query parameter (?id=)
   var urlParams = new URLSearchParams(window.location.search);
@@ -176,13 +173,13 @@ function getTeamById() {
     .then(json)
     .then(function (data) {
       // Objek JavaScript dari response.json() masuk lewat variabel data.
-      console.log(data.squad);
-      console.log(data.squad.length);
+      // console.log(data);
+      // console.log(data.squad.length);
       // Menyusun komponen card artikel secara dinamis
 
       var squadHTML = "";
 
-      data.squad.forEach(function (squads, index, array) {
+      data.squad.forEach(function (squads) {
         var dateBirth = new Date(squads.dateOfBirth);
 
         squadHTML += `                                                         
@@ -257,13 +254,13 @@ function getStandings() {
         standing.table.forEach(teamInfo => {
           standingstdHTML += `        
           <tr>
-            <td>${ teamInfo.position}</td>
+            <td>${teamInfo.position}</td>
             <td><img src="${teamInfo.team.crestUrl}" height="50px" width="50px"></td>
-            <td>${ teamInfo.team.name}</td>
-            <td>${ teamInfo.won}</td>
-            <td>${ teamInfo.draw}</td>
-            <td>${ teamInfo.lost}</td>
-            <td>${ teamInfo.points}</td>                
+            <td>${teamInfo.team.name}</td>
+            <td>${teamInfo.won}</td>
+            <td>${teamInfo.draw}</td>
+            <td>${teamInfo.lost}</td>
+            <td>${teamInfo.points}</td>                
           </tr>
             `;
         })
@@ -285,7 +282,7 @@ function getStandings() {
               <th>Point</th>              
             </tr>
             
-            ${ standingstdHTML}
+            ${standingstdHTML}
                          
             </table>
       `;
