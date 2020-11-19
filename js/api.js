@@ -92,14 +92,10 @@ function getTeamById() {
                 <td>${squads.nationality}</td>
                 <td>${dateBirth.getDate() + '-' + dateBirth.getMonth() + '-' + dateBirth.getFullYear()}</td>
                 <td>${squads.position}</td>
-                <td>${squads.role}</td>
-                
-              </tr>            
-            
+                <td>${squads.role}</td>               
+              </tr>                        
           `;
-
         })
-
 
       var teamHTML = `
           <div class="card center-align">
@@ -138,7 +134,6 @@ function getTeamById() {
     });
 }
 
-
 function getStandings() {
   fetch(base_url + "competitions/2021/standings", {
     mode: 'cors',
@@ -170,27 +165,25 @@ function getStandings() {
               <th>Seri</th>
               <th>Kalah</th>
               <th>Point</th>              
-            </tr>      
+            </tr>
+            <tr>
+            ${ standingstdHTML }
+            </tr>             
+            </table>
       `;
-      
-
-
-      data.standings.forEach(function (standing, index, array) {
-        console.log(standing.table);
-        console.log(standing.team[index]);
-        standingstdHTML += `
-        
-          <tr>
+ 
+      data.standings.forEach(function (standing) {
+        console.log(standing.table);        
+        standingstdHTML += `        
+          
             <td>1</td>
             <td><img src="${data.crestUrl}" height="50px" width="50px"></td>
-            <td>${ team[index] }</td>
+            <td>${ standing.name }</td>
             <td>8</td>
             <td>9</td>
             <td>0</td>
-            <td>20</td>
-          </tr>
-        
-      </table>
+            <td>20</td>                
+      
             `;
       });
       // Sisipkan komponen card ke dalam elemen dengan id #content
