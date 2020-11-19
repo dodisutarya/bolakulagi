@@ -23,6 +23,42 @@ function error(error) {
 
 // Blok kode untuk melakukan request data json
 function getTeams() {
+
+  if ('caches' in window) {
+    caches.match(base_url + "teams").then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          var teamsHTML = "";
+          data.teams.forEach(function (team) {
+            teamsHTML += `
+                  <div class="card ">
+                    <a href="./team.html?id=${team.id}">
+                      <div class="card-image waves-effect waves-block waves-light">
+                        <img src="${team.crestUrl}" />
+                      </div>
+                    </a>
+                    <div class="card-content center-align">
+                      <span class="card-title truncate">${team.name}</span>
+                      <p>${team.address}</p>
+                      <p>${team.phone}</p>
+                      <p>${team.website}</p>
+                      <p>${team.email}</p>
+                      <p>${team.venue}</p>
+                    </div>
+                  </div>
+                `;
+          });
+
+          // Sisipkan komponen card ke dalam elemen dengan id #content
+          document.getElementById("teams").innerHTML = teamsHTML;
+
+        })
+      }
+    })
+  }
+
+
+
   fetch(base_url + "teams", {
     mode: 'cors',
     method: 'GET',
@@ -38,13 +74,13 @@ function getTeams() {
       var teamsHTML = "";
       data.teams.forEach(function (team) {
         teamsHTML += `
-              <div class="card">
+              <div class="card ">
                 <a href="./team.html?id=${team.id}">
                   <div class="card-image waves-effect waves-block waves-light">
                     <img src="${team.crestUrl}" />
                   </div>
                 </a>
-                <div class="card-content">
+                <div class="card-content center-align">
                   <span class="card-title truncate">${team.name}</span>
                   <p>${team.address}</p>
                   <p>${team.phone}</p>
@@ -63,6 +99,69 @@ function getTeams() {
 
 
 function getTeamById() {
+
+  if ('caches' in window) {
+    caches.match(base_url + "teams"+ idParam).then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          var teamsHTML = "";
+          data.teams.forEach(function (team) {
+            var squadHTML = "";
+
+            data.squad.forEach(function (squads, index, array) {
+              var dateBirth = new Date(squads.dateOfBirth);
+
+              squadHTML += `                                                         
+              <tr>
+                <td>${squads.name}</td>                
+                <td>${squads.nationality}</td>
+                <td>${dateBirth.getDate() + '-' + dateBirth.getMonth() + '-' + dateBirth.getFullYear()}</td>
+                <td>${squads.position}</td>
+                <td>${squads.role}</td>               
+              </tr>                        
+          `;
+            })
+
+            var teamHTML = `
+          <div class="card center-align">
+            <div class="card-image waves-effect waves-block waves-light">
+              <img src="${data.crestUrl}" width="50px" />
+            </div>
+            <div class="card-content">
+              <span class="card-title">${data.name}</span>
+                  <p>${data.address}</p>
+                  <p>${data.phone}</p>
+                  <p>${data.website}</p>
+                  <p>${data.email}</p>
+                  <p>${data.venue}</p>                 
+            </div>
+          </div>
+          <h4 class="center-align">DAFTAR SQUAD</h4>
+          <table class="striped responsive-table">
+          <thead>
+            <tr>
+                <th>Name</th>
+                <th>Kebangsaan</th>
+                <th>Tanggal Lahir</th>
+                <th>Posisi</th>
+                <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+          ${squadHTML}
+          </tbody>
+          </table>          
+        `;
+          });
+
+          // Sisipkan komponen card ke dalam elemen dengan id #content
+          document.getElementById("body-content").innerHTML = teamHTML;
+
+        })
+      }
+    })
+  } 
+
   // Ambil nilai query parameter (?id=)
   var urlParams = new URLSearchParams(window.location.search);
   var idParam = urlParams.get("id");
@@ -81,12 +180,12 @@ function getTeamById() {
       console.log(data.squad.length);
       // Menyusun komponen card artikel secara dinamis
 
-      var squadHTML ="";
+      var squadHTML = "";
 
-        data.squad.forEach(function(squads, index, array){
-          var dateBirth = new Date(squads.dateOfBirth);
+      data.squad.forEach(function (squads, index, array) {
+        var dateBirth = new Date(squads.dateOfBirth);
 
-          squadHTML += `                                                         
+        squadHTML += `                                                         
               <tr>
                 <td>${squads.name}</td>                
                 <td>${squads.nationality}</td>
@@ -95,7 +194,7 @@ function getTeamById() {
                 <td>${squads.role}</td>               
               </tr>                        
           `;
-        })
+      })
 
       var teamHTML = `
           <div class="card center-align">
@@ -146,10 +245,29 @@ function getStandings() {
     .then(json)
     .then(function (data) {
       //console.log(data.standings);
-      
+
       // Objek/array JavaScript dari response.json() masuk lewat data.
       // Menyusun komponen card artikel secara dinamis
       var standingstdHTML = "";
+
+      console.log(data.standings);
+      //   console.log(standingDetail.team);
+
+      data.standings.forEach(function (standing) {
+        standing.table.forEach(teamInfo => {
+          standingstdHTML += `        
+          <tr>
+            <td>${ teamInfo.position}</td>
+            <td><img src="${teamInfo.team.crestUrl}" height="50px" width="50px"></td>
+            <td>${ teamInfo.team.name}</td>
+            <td>${ teamInfo.won}</td>
+            <td>${ teamInfo.draw}</td>
+            <td>${ teamInfo.lost}</td>
+            <td>${ teamInfo.points}</td>                
+          </tr>
+            `;
+        })
+      });
 
       var standingsHTML = `
           <table class="responsive-table highlight">
@@ -167,30 +285,12 @@ function getStandings() {
               <th>Point</th>              
             </tr>
             
-            ${ standingstdHTML }
+            ${ standingstdHTML}
                          
             </table>
       `;
- 
-      data.standings.forEach(function (standing) {
-        console.log(standing); 
-        const standingDetail = standing.table; 
-        console.log(standingDetail.team.name);
-        
-         
-      
-        standingstdHTML += `        
-          <tr>
-            <td>1</td>
-            <td><img src="${standingDetail.team.crestUrl}" height="50px" width="50px"></td>
-            <td>${ standingDetail.team.name }</td>
-            <td>8</td>
-            <td>9</td>
-            <td>0</td>
-            <td>20</td>                
-          </tr>
-            `;
-      });
+
+
       // Sisipkan komponen card ke dalam elemen dengan id #content
       document.getElementById("standing").innerHTML = standingsHTML;
     })

@@ -26,10 +26,18 @@
   </nav>
   <!-- Akhir Navigasi -->
   <div class="container" id="body-content"></div>
-  <div class="container" id="body-content-squad"></div>
+  <!-- floating button -->
+  <div class="fixed-action-btn">
+    <a class="btn-floating btn-large red" id="save">
+      <i class="large material-icons">save</i>
+    </a>
+  </div>
+
   <script type="text/javascript" src="https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js"></script>
   <script src="js/materialize.min.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/idb.js"></script>
+  <script src="js/db.js"></script>
   <script>
     // REGISTER SERVICE WORKER
     if ("serviceWorker" in navigator) {
@@ -47,9 +55,23 @@
       console.log("ServiceWorker belum didukung browser ini.");
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      getTeamById();
-      
+    document.addEventListener("DOMContentLoaded", function () {      
+
+      var item = getTeamById();
+      var save = document.getElementById("save");
+      save.onclick = function () {
+        console.log("Tombol FAB di klik.");
+        item.then(function (team) {
+          saveForLater(team);
+        });
+      }
+
+      // deteksi tombol save
+      var save = document.getElementById("save");
+      save.onclick = function () {
+        console.log("Tombol FAB di klik.");
+      }
+
     });
   </script>
 </body>
