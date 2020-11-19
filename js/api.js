@@ -150,7 +150,7 @@ function getStandings() {
     .then(status)
     .then(json)
     .then(function (data) {
-      console.log(data.standings);
+      //console.log(data.standings);
       
       // Objek/array JavaScript dari response.json() masuk lewat data.
       // Menyusun komponen card artikel secara dinamis
@@ -172,15 +172,18 @@ function getStandings() {
               <th>Point</th>              
             </tr>      
       `;
+      
 
 
-      data.standings.forEach(function (standing) {
+      data.standings.forEach(function (standing, index, array) {
+        console.log(standing.table);
+        console.log(standing.team[index]);
         standingstdHTML += `
         
           <tr>
             <td>1</td>
-            <td><img src="https://picsum.photos/seed/picsum/200/300" height="50px" width="50px"></td>
-            <td>${ standing.position }</td>
+            <td><img src="${data.crestUrl}" height="50px" width="50px"></td>
+            <td>${ team[index] }</td>
             <td>8</td>
             <td>9</td>
             <td>0</td>
@@ -191,7 +194,7 @@ function getStandings() {
             `;
       });
       // Sisipkan komponen card ke dalam elemen dengan id #content
-      document.getElementById("teams").innerHTML = standingsHTML;
+      document.getElementById("standing").innerHTML = standingsHTML;
     })
     .catch(error);
 }
