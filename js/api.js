@@ -166,24 +166,29 @@ function getStandings() {
               <th>Kalah</th>
               <th>Point</th>              
             </tr>
-            <tr>
+            
             ${ standingstdHTML }
-            </tr>             
+                         
             </table>
       `;
  
       data.standings.forEach(function (standing) {
-        console.log(standing.table);        
+        console.log(standing); 
+        const standingDetail = standing.table; 
+        console.log(standingDetail.team.name);
+        
+         
+      
         standingstdHTML += `        
-          
+          <tr>
             <td>1</td>
-            <td><img src="${data.crestUrl}" height="50px" width="50px"></td>
-            <td>${ standing.name }</td>
+            <td><img src="${standingDetail.team.crestUrl}" height="50px" width="50px"></td>
+            <td>${ standingDetail.team.name }</td>
             <td>8</td>
             <td>9</td>
             <td>0</td>
             <td>20</td>                
-      
+          </tr>
             `;
       });
       // Sisipkan komponen card ke dalam elemen dengan id #content
