@@ -1,7 +1,7 @@
 {
-    "name": "My First PWA",
-    "short_name": "My PWA",
-    "description": "Aplikasi PWA pertama saya",
+    "name": "Bolakulagi",
+    "short_name": "Bolakulagi",
+    "description": "Aplikasi PWA Bolakulagi",
     "start_url": "/index.html",
     "display": "standalone",
     "background_color": "#00897B",

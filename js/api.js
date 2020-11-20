@@ -158,6 +158,8 @@ function getTeamById() {
   
             // Sisipkan komponen card ke dalam elemen dengan id #content
             document.getElementById("body-content").innerHTML = teamHTML;
+            // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
+            resolve(data);
   
           })
         }

@@ -2,6 +2,7 @@ const CACHE_NAME = "firstpwa-v2";
 var urlsToCache = [
   "/",
   "/service-worker.js",
+  "/manifest.json",
   "/team.html",
   "/nav.html",
   "/index.html",
@@ -9,6 +10,7 @@ var urlsToCache = [
   "/pages/about.html",
   "/pages/standing.html",
   "/css/materialize.min.css",
+  "/css/materialize.css",
   "/js/materialize.min.js",
   "/js/nav.js",
   "/js/api.js",
