@@ -10,7 +10,7 @@ var dbPromised = idb.open("bolakulagi", 1, function(upgradeDb) {
       .then(function(db) {
         var tx = db.transaction("teams", "readwrite");
         var store = tx.objectStore("teams");
-        console.log(team);
+        // console.log(team);
         store.add(team);
         return tx.complete;
       })
