@@ -43,10 +43,10 @@
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
         .register("/service-worker.js")
-        .then(function(){
+        .then(function () {
           console.log("Pendaftaran Serviceworker berhasil");
         })
-        .catch(function(){
+        .catch(function () {
           console.log("Pendaftaran Serviceworker gagal");
         })
       // window.addEventListener("load", function () {
@@ -63,25 +63,51 @@
       console.log("ServiceWorker belum didukung browser ini.");
     }
 
-    document.addEventListener("DOMContentLoaded", function () {      
+    document.addEventListener("DOMContentLoaded", function () {
 
-      var item = getTeamById();
-      var save = document.getElementById("save");
-      save.onclick = function () {
+      var urlParams = new URLSearchParams(window.location.search);
+      var isFromSaved = urlParams.get("saved");
+
+      var btnSave = document.getElementById("save");
+
+      if (isFromSaved) {
+        // Hide fab jika dimuat dari indexed db
+        btnSave.style.display = 'none';
+
+        // ambil artikel lalu tampilkan
+        getSavedTeamsById();
+
+      } else {
+        var item = getTeamById();
+      }
+
+      btnSave.onclick = function () {
         console.log("Tombol FAB di klik.");
         item.then(function (team) {
           saveForLater(team);
         });
-      }
+      };
+    
 
-      // deteksi tombol save
-      var save = document.getElementById("save");
-      save.onclick = function () {
-        console.log("Tombol FAB di klik.");
-        item.then(function(team){
-          saveForLater(team);
-        });
-      }
+
+
+    // var item = getTeamById();
+    // var save = document.getElementById("save");
+    // save.onclick = function () {
+    //   console.log("Tombol FAB di klik.");
+    //   item.then(function (team) {
+    //     saveForLater(team);
+    //   });
+    // }
+
+    // // deteksi tombol save
+    // var save = document.getElementById("save");
+    // save.onclick = function () {
+    //   console.log("Tombol FAB di klik.");
+    //   item.then(function (team) {
+    //     saveForLater(team);
+    //   });
+    // }
 
     });
   </script>
