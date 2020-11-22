@@ -5,8 +5,8 @@
     "description": "Aplikasi PWA Bolakulagi",
     "start_url": "/index.html",
     "display": "standalone",
-    "background_color": "#00897B",
-    "theme_color": "#00897B",
+    "background_color": "#34626c",
+    "theme_color": "#34626c",
     "icons": [
         {
             "src": "icon.png",

@@ -110,10 +110,10 @@ function getTeamById() {
         if (response) {
           response.json().then(function (data) {
             var squadHTML = "";
-  
+
             data.squad.forEach(function (squads) {
               var dateBirth = new Date(squads.dateOfBirth);
-  
+
               squadHTML += `                                                         
                 <tr>
                   <td>${squads.name}</td>                
@@ -124,7 +124,7 @@ function getTeamById() {
                 </tr>                        
             `;
             })
-  
+
             var teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
@@ -155,18 +155,18 @@ function getTeamById() {
             </tbody>
             </table>          
           `;
-  
+
             // Sisipkan komponen card ke dalam elemen dengan id #content
             document.getElementById("body-content").innerHTML = teamHTML;
             // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
             resolve(data);
-  
+
           })
         }
       })
     }
-  
-  
+
+
     fetch(base_url + "teams/" + idParam, {
       mode: 'cors',
       method: 'GET',
@@ -177,16 +177,13 @@ function getTeamById() {
       .then(status)
       .then(json)
       .then(function (data) {
-        // Objek JavaScript dari response.json() masuk lewat variabel data.
-        // console.log(data);
-        // console.log(data.squad.length);
+        // Objek JavaScript dari response.json() masuk lewat variabel data.    
         // Menyusun komponen card artikel secara dinamis
-  
         var squadHTML = "";
-  
+
         data.squad.forEach(function (squads) {
           var dateBirth = new Date(squads.dateOfBirth);
-  
+
           squadHTML += `                                                         
                 <tr>
                   <td>${squads.name}</td>                
@@ -197,7 +194,7 @@ function getTeamById() {
                 </tr>                        
             `;
         })
-  
+
         var teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
@@ -228,17 +225,14 @@ function getTeamById() {
             </tbody>
             </table>          
           `;
-  
+
         // Sisipkan komponen card ke dalam elemen dengan id #content
         document.getElementById("body-content").innerHTML = teamHTML;
-        
+
         // Kirim objek data hasil parsing json agar bisa disimpan ke indexed db
         resolve(data);
       });
-
   })
-
-  
 }
 
 function getStandings() {
@@ -251,61 +245,53 @@ function getStandings() {
   })
     .then(status)
     .then(json)
-    .then(function (data) {
-      //console.log(data.standings);
-
+    .then(function (data) {    
       // Objek/array JavaScript dari response.json() masuk lewat data.
-      // Menyusun komponen card artikel secara dinamis
-      var standingstdHTML = "";
-
-      const standingDetail = data.standings;
-
-      //console.log(standingDetail);
-        // console.log(standingDetail.team);
-
-
-
+      // Menyusun komponen card standing secara dinamis
+      var standingsTotalHTML = "";
       data.standings.forEach(function (standing) {
-        console.log(standing);
-        standing.table.forEach(teamInfo => {
-          // var totalAll = standing;
-          // console.log(totalAll);
-          standingstdHTML += `        
-          <tr>
-            <td>${teamInfo.position}</td>
-            <td><img src="${teamInfo.team.crestUrl}" height="50px" width="50px"></td>
-            <td>${teamInfo.team.name}</td>
-            <td>${teamInfo.won}</td>
-            <td>${teamInfo.draw}</td>
-            <td>${teamInfo.lost}</td>
-            <td>${teamInfo.points}</td>                
-          </tr>
-            `;
-        })
+        // console.log(standing);
+        if (standing.type == "TOTAL") {
+          standing.table.forEach(teamInfo => {            
+            standingsTotalHTML += `        
+            <tr>
+              <td>${teamInfo.position}</td>
+              <td><img src="${teamInfo.team.crestUrl}" height="50px" width="50px"></td>
+              <td>${teamInfo.team.name}</td>
+              <td>${teamInfo.playedGames}</td>
+              <td>${teamInfo.goalDifference}</td>
+              <td>${teamInfo.goalsAgainst}</td>
+              <td>${teamInfo.goalsFor}</td>
+              <td>${teamInfo.won}</td>              
+              <td>${teamInfo.draw}</td>
+              <td>${teamInfo.lost}</td>
+              <td>${teamInfo.points}</td>                
+            </tr>
+              `;
+          })
+        }
       });
 
       var standingsHTML = `
-          <table class="responsive-table highlight">
+          <table class="striped bordered responsive-table">
+          <thead>
             <tr>
-              <th rowspan="2">Position</th>    
-              <th colspan="2">Team</th>
-              <th colspan="4">Klasmen</th>
-            </tr>
-            <tr>
+              <th>Position</th>  
               <th>Logo</th>
-              <th>Nama</th>    
-              <th>Menang</th>
-              <th>Seri</th>
-              <th>Kalah</th>
-              <th>Point</th>              
-            </tr>
-            
-            ${standingstdHTML}
-                         
+              <th>Name</th>    
+              <th>Play</th>
+              <th>GD</th>
+              <th>GA</th>
+              <th>GF</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>Pts</th>                   
+            </tr> 
+          </thead>            
+            ${standingsTotalHTML}                         
             </table>
       `;
-
-
       // Sisipkan komponen card ke dalam elemen dengan id #content
       document.getElementById("standing").innerHTML = standingsHTML;
     })
@@ -313,13 +299,13 @@ function getStandings() {
 }
 
 function getSavedTeams() {
-  getAll().then(function(teams) {
+  getAll().then(function (teams) {
     console.log(teams);
     // Menyusun komponen card artikel secara dinamis
     var teamsHTML = "";
-      teams.forEach(function (team) {
-        
-        teamsHTML += `
+    teams.forEach(function (team) {
+
+      teamsHTML += `
               <div class="card ">
                 <a href="./team.html?id=${team.id}&saved=true">
                   <div class="card-image waves-effect waves-block waves-light">
@@ -337,7 +323,7 @@ function getSavedTeams() {
                 </div>
               </div>
             `;
-      });
+    });
     // Sisipkan komponen card ke dalam elemen dengan id #body-content
     document.getElementById("teams").innerHTML = teamsHTML;
   });
@@ -348,16 +334,16 @@ function getSavedTeamById() {
   var idParam = urlParams.get("id");
 
   console.log(getById(idParam));
-  
-  getById(idParam).then(function(data) {
+
+  getById(idParam).then(function (data) {
 
     console.log(data);
 
     var squadHTML = "";
-  
+
         data.squad.forEach(function (squads) {
           var dateBirth = new Date(squads.dateOfBirth);
-  
+
           squadHTML += `                                                         
                 <tr>
                   <td>${squads.name}</td>                
@@ -368,7 +354,7 @@ function getSavedTeamById() {
                 </tr>                        
             `;
         })
-  
+
         var teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
@@ -399,22 +385,24 @@ function getSavedTeamById() {
             </tbody>
             </table>          
           `;
-  
-        // Sisipkan komponen card ke dalam elemen dengan id #content
-        document.getElementById("body-content").innerHTML = teamHTML;
+
+    // Sisipkan komponen card ke dalam elemen dengan id #content
+    document.getElementById("body-content").innerHTML = teamHTML;
+
+    resolve(data);
   });
 }
 
 
 function getById(id) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     dbPromised
-      .then(function(db) {
+      .then(function (db) {
         var tx = db.transaction("teams", "readonly");
         var store = tx.objectStore("teams");
         return store.get(id);
       })
-      .then(function(team) {
+      .then(function (team) {
         resolve(team);
       });
   });
