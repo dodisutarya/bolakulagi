@@ -10,9 +10,22 @@
     "icons": [
         {
             "src": "icon.png",
-            "sizes": "512x512",
+            "sizes": "512x546",
             "type": "image/png"
+        },
+        {
+            "src": "/icon-196.png",
+            "sizes": "196x209",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/maskable_icon.png",
+            "type": "image/png",
+            "sizes": "196x209",
+            "purpose": "maskable"
         }
+        
     ]
 }
 
