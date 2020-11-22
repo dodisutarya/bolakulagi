@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     content.innerHTML = xhttp.responseText;
                     if(page == "home" || page == "") {
                         getTeams();
+                        
                     } else if(page== "standing") {
                         getStandings();
                     } else if(page == "saved"){

@@ -1,5 +1,6 @@
 {
     "name": "Bolakulagi",
+    "gcm_sender_id": "266300202946",
     "short_name": "Bolakulagi",
     "description": "Aplikasi PWA Bolakulagi",
     "start_url": "/index.html",
@@ -14,3 +15,4 @@
         }
     ]
 }
+

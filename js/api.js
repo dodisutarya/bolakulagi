@@ -258,11 +258,18 @@ function getStandings() {
       // Menyusun komponen card artikel secara dinamis
       var standingstdHTML = "";
 
-      //console.log(data.standings);
-      //   console.log(standingDetail.team);
+      const standingDetail = data.standings;
+
+      //console.log(standingDetail);
+        // console.log(standingDetail.team);
+
+
 
       data.standings.forEach(function (standing) {
+        console.log(standing);
         standing.table.forEach(teamInfo => {
+          // var totalAll = standing;
+          // console.log(totalAll);
           standingstdHTML += `        
           <tr>
             <td>${teamInfo.position}</td>
