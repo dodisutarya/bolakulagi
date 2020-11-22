@@ -9,12 +9,18 @@ var urlsToCache = [
   "/pages/home.html",
   "/pages/about.html",
   "/pages/standing.html",
+  "/pages/saved.html",
   "/css/materialize.min.css",
   "/css/materialize.css",
+  "/js/materialize.js",
   "/js/materialize.min.js",
   "/js/nav.js",
   "/js/api.js",
-  "/icon.png"
+  "/js/db.js",
+  "/js/idb.js",
+  "/icon.png",
+  "/icon-196.png",
+  "/maskable_icon.png"
 ];
 
 self.addEventListener("install", function (event) {
