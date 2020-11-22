@@ -335,7 +335,7 @@ function getSavedTeamById() {
 
   console.log(getById(idParam));
 
-  getById(idParam).then(function (data) {
+  getById(Number(idParam)).then(function (data) {
 
     console.log(data);
 
@@ -389,7 +389,7 @@ function getSavedTeamById() {
     // Sisipkan komponen card ke dalam elemen dengan id #content
     document.getElementById("body-content").innerHTML = teamHTML;
 
-    resolve(data);
+    
   });
 }
 
