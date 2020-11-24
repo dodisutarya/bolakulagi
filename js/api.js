@@ -400,7 +400,8 @@ function getById(id) {
       .then(function (db) {
         var tx = db.transaction("teams", "readonly");
         var store = tx.objectStore("teams");
-        return store.get(id);
+        return store.get(parseInt(id));
+        //Disini seharusnya kamu konversi terlebih dahulu parameter id menjadi int sesuai dengan tipe data id yang tersimpan pada indexedDb.
       })
       .then(function (team) {
         resolve(team);

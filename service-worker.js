@@ -1,6 +1,9 @@
 const CACHE_NAME = "firstpwa-v2";
-var urlsToCache = [
+const urlsToCache = [
   "/",
+  "https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js",
+  "https://fonts.googleapis.com/icon?family=Material+Icons",
+  "https://fonts.gstatic.com/s/materialicons/v67/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2",
   "/service-worker.js",
   "/manifest.json",
   "/team.html",
