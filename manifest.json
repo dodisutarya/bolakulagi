@@ -15,14 +15,14 @@
         },
         {
             "src": "/icon-196.png",
-            "sizes": "196x209",
+            "sizes": "196x196",
             "type": "image/png",
             "purpose": "any"
         },
         {
             "src": "/maskable_icon.png",
             "type": "image/png",
-            "sizes": "196x209",
+            "sizes": "196x196",
             "purpose": "maskable"
         }
         
