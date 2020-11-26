@@ -106,7 +106,7 @@ function getTeamById() {
     var idParam = urlParams.get("id");
 
     if ('caches' in window) {
-      caches.match(base_url + "teams" + idParam).then(function (response) {
+      caches.match(base_url + "/teams" + idParam).then(function (response) {
         if (response) {
           response.json().then(function (data) {
             var squadHTML = "";
@@ -236,6 +236,70 @@ function getTeamById() {
 }
 
 function getStandings() {
+
+  if ('caches' in window) {
+    caches.match(base_url + "teams/").then(function (response) {
+      if (response) {
+        response.json().then(function (data) {
+          var standingsTotalHTML = "";
+          data.standings.forEach(function (standing) {
+            // console.log(standing);
+            if (standing.type == "TOTAL") {
+              standing.table.forEach(teamInfo => {
+                standingsTotalHTML += `        
+            <tr>
+              <td>${teamInfo.position}</td>
+              <td><img src="${teamInfo.team.crestUrl}" height="50px" width="50px"></td>
+              <td>${teamInfo.team.name}</td>
+              <td>${teamInfo.playedGames}</td>
+              <td>${teamInfo.goalDifference}</td>
+              <td>${teamInfo.goalsAgainst}</td>
+              <td>${teamInfo.goalsFor}</td>
+              <td>${teamInfo.won}</td>              
+              <td>${teamInfo.draw}</td>
+              <td>${teamInfo.lost}</td>
+              <td>${teamInfo.points}</td>                
+            </tr>
+              `;
+              })
+            }
+          });
+
+          var standingsHTML = `
+          <table class="striped bordered responsive-table">
+          <thead>
+            <tr>
+              <th>Position</th>  
+              <th>Logo</th>
+              <th>Name</th>    
+              <th>Play</th>
+              <th>GD</th>
+              <th>GA</th>
+              <th>GF</th>
+              <th>W</th>
+              <th>D</th>
+              <th>L</th>
+              <th>Pts</th>                   
+            </tr> 
+          </thead>            
+            ${standingsTotalHTML}                         
+            </table>
+      `;
+          // Sisipkan komponen card ke dalam elemen dengan id #content
+          document.getElementById("standing").innerHTML = standingsHTML;
+
+
+
+
+        })
+      }
+    })
+  }
+
+
+
+
+
   fetch(base_url + "competitions/2021/standings", {
     mode: 'cors',
     method: 'GET',
@@ -245,14 +309,14 @@ function getStandings() {
   })
     .then(status)
     .then(json)
-    .then(function (data) {    
+    .then(function (data) {
       // Objek/array JavaScript dari response.json() masuk lewat data.
       // Menyusun komponen card standing secara dinamis
       var standingsTotalHTML = "";
       data.standings.forEach(function (standing) {
         // console.log(standing);
         if (standing.type == "TOTAL") {
-          standing.table.forEach(teamInfo => {            
+          standing.table.forEach(teamInfo => {
             standingsTotalHTML += `        
             <tr>
               <td>${teamInfo.position}</td>
@@ -341,10 +405,10 @@ function getSavedTeamById() {
 
     var squadHTML = "";
 
-        data.squad.forEach(function (squads) {
-          var dateBirth = new Date(squads.dateOfBirth);
+    data.squad.forEach(function (squads) {
+      var dateBirth = new Date(squads.dateOfBirth);
 
-          squadHTML += `                                                         
+      squadHTML += `                                                         
                 <tr>
                   <td>${squads.name}</td>                
                   <td>${squads.nationality}</td>
@@ -353,9 +417,9 @@ function getSavedTeamById() {
                   <td>${squads.role}</td>               
                 </tr>                        
             `;
-        })
+    })
 
-        var teamHTML = `
+    var teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
                 <img src="${data.crestUrl}" width="50px" />
@@ -389,7 +453,7 @@ function getSavedTeamById() {
     // Sisipkan komponen card ke dalam elemen dengan id #content
     document.getElementById("body-content").innerHTML = teamHTML;
 
-    
+
   });
 }
 
