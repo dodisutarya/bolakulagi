@@ -1,4 +1,4 @@
-var base_url = "https://api.football-data.org/v2/";
+const base_url = "https://api.football-data.org/v2/";
 // Blok kode yang akan di panggil jika fetch berhasil
 function status(response) {
   if (response.status !== 200) {
@@ -28,7 +28,7 @@ function getTeams() {
     caches.match(base_url + "teams").then(function (response) {
       if (response) {
         response.json().then(function (data) {
-          var teamsHTML = "";
+          let teamsHTML = "";
           data.teams.forEach(function (team) {
             teamsHTML += `
                   <div class="card ">
@@ -71,7 +71,7 @@ function getTeams() {
     .then(function (data) {
       // Objek/array JavaScript dari response.json() masuk lewat data.
       // Menyusun komponen card artikel secara dinamis
-      var teamsHTML = "";
+      let teamsHTML = "";
       data.teams.forEach(function (team) {
         teamsHTML += `
               <div class="card ">
@@ -102,17 +102,17 @@ function getTeamById() {
 
   return new Promise(function (resolve, reject) {
     // Ambil nilai query parameter (?id=)
-    var urlParams = new URLSearchParams(window.location.search);
-    var idParam = urlParams.get("id");
+    const urlParams = new URLSearchParams(window.location.search);
+    const idParam = urlParams.get("id");
 
     if ('caches' in window) {
       caches.match(base_url + "/teams" + idParam).then(function (response) {
         if (response) {
           response.json().then(function (data) {
-            var squadHTML = "";
+            const squadHTML = "";
 
             data.squad.forEach(function (squads) {
-              var dateBirth = new Date(squads.dateOfBirth);
+              const dateBirth = new Date(squads.dateOfBirth);
 
               squadHTML += `                                                         
                 <tr>
@@ -125,7 +125,7 @@ function getTeamById() {
             `;
             })
 
-            var teamHTML = `
+            let teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
                 <img src="${data.crestUrl}" width="50px" />
@@ -179,10 +179,10 @@ function getTeamById() {
       .then(function (data) {
         // Objek JavaScript dari response.json() masuk lewat variabel data.    
         // Menyusun komponen card artikel secara dinamis
-        var squadHTML = "";
+        let squadHTML = "";
 
         data.squad.forEach(function (squads) {
-          var dateBirth = new Date(squads.dateOfBirth);
+          let dateBirth = new Date(squads.dateOfBirth);
 
           squadHTML += `                                                         
                 <tr>
@@ -195,7 +195,7 @@ function getTeamById() {
             `;
         })
 
-        var teamHTML = `
+        let teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
                 <img src="${data.crestUrl}" width="50px" />
@@ -241,7 +241,7 @@ function getStandings() {
     caches.match(base_url + "teams/").then(function (response) {
       if (response) {
         response.json().then(function (data) {
-          var standingsTotalHTML = "";
+          let standingsTotalHTML = "";
           data.standings.forEach(function (standing) {
             // console.log(standing);
             if (standing.type == "TOTAL") {
@@ -265,7 +265,7 @@ function getStandings() {
             }
           });
 
-          var standingsHTML = `
+          let standingsHTML = `
           <table class="striped bordered responsive-table">
           <thead>
             <tr>
@@ -312,7 +312,7 @@ function getStandings() {
     .then(function (data) {
       // Objek/array JavaScript dari response.json() masuk lewat data.
       // Menyusun komponen card standing secara dinamis
-      var standingsTotalHTML = "";
+      let standingsTotalHTML = "";
       data.standings.forEach(function (standing) {
         // console.log(standing);
         if (standing.type == "TOTAL") {
@@ -336,7 +336,7 @@ function getStandings() {
         }
       });
 
-      var standingsHTML = `
+      let standingsHTML = `
           <table class="striped bordered responsive-table">
           <thead>
             <tr>
@@ -366,7 +366,7 @@ function getSavedTeams() {
   getAll().then(function (teams) {
     console.log(teams);
     // Menyusun komponen card artikel secara dinamis
-    var teamsHTML = "";
+    let teamsHTML = "";
     teams.forEach(function (team) {
 
       teamsHTML += `
@@ -394,8 +394,8 @@ function getSavedTeams() {
 }
 
 function getSavedTeamById() {
-  var urlParams = new URLSearchParams(window.location.search);
-  var idParam = urlParams.get("id");
+  const urlParams = new URLSearchParams(window.location.search);
+  const idParam = urlParams.get("id");
 
   console.log(getById(idParam));
 
@@ -403,10 +403,10 @@ function getSavedTeamById() {
 
     console.log(data);
 
-    var squadHTML = "";
+    let squadHTML = "";
 
     data.squad.forEach(function (squads) {
-      var dateBirth = new Date(squads.dateOfBirth);
+      let dateBirth = new Date(squads.dateOfBirth);
 
       squadHTML += `                                                         
                 <tr>
@@ -419,7 +419,7 @@ function getSavedTeamById() {
             `;
     })
 
-    var teamHTML = `
+    let teamHTML = `
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
                 <img src="${data.crestUrl}" width="50px" />
@@ -462,8 +462,8 @@ function getById(id) {
   return new Promise(function (resolve, reject) {
     dbPromised
       .then(function (db) {
-        var tx = db.transaction("teams", "readonly");
-        var store = tx.objectStore("teams");
+        let tx = db.transaction("teams", "readonly");
+        let store = tx.objectStore("teams");
         return store.get(parseInt(id));
         //Disini seharusnya kamu konversi terlebih dahulu parameter id menjadi int sesuai dengan tipe data id yang tersimpan pada indexedDb.
       })

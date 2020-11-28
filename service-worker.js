@@ -1,7 +1,6 @@
 const CACHE_NAME = "firstpwa-v2";
-const urlsToCache = [
-  "/",
-  "https://api.football-data.org/v2/",
+let urlsToCache = [
+  "/",  
   "https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js",
   "https://fonts.googleapis.com/icon?family=Material+Icons",
   "https://fonts.gstatic.com/s/materialicons/v67/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2",
@@ -22,6 +21,7 @@ const urlsToCache = [
   "/js/api.js",
   "/js/db.js",
   "/js/idb.js",
+  "/js/reg-sw.js",
   "/icon.png",
   "/icon-196.png",
   "/maskable_icon.png"
