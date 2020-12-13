@@ -17,7 +17,7 @@
   <nav class="blue darken-4" role="navigation">
     <div class="nav-wrapper container">
       <a href="#" class="brand-logo" id="logo-container">Detail Team</a>
-      <a href="./index.html" class="sidenav-trigger" data-target="nav-mobile">
+      <a href="./index.html#saved" class="sidenav-trigger" data-target="nav-mobile">
         <i class="material-icons">arrow_back</i>
       </a>
       <ul class="topnav right hide-on-med-and-down"></ul>
@@ -28,16 +28,10 @@
   <div class="container" id="body-content"></div>
   <!-- floating button -->
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red" id="save">
-      <i class="large material-icons">save</i>
-    </a>
-  </div>
-
-  <!-- <div class="fixed-action-btn">
     <a class="btn-floating btn-large red" id="delete">
       <i class="large material-icons">delete</i>
     </a>
-  </div> -->
+  </div>
 
   <script type="text/javascript" src="https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js"></script>
   <script src="js/materialize.min.js"></script>
@@ -63,25 +57,25 @@
     document.addEventListener("DOMContentLoaded", function () {
 
       var urlParams = new URLSearchParams(window.location.search);
-      var isFromSaved = urlParams.get("saved");
+      var isFromDeleted = urlParams.get("deleted");
 
-      var btnSave = document.getElementById("save");
+      var btnDelete = document.getElementById("delete");
 
-      if (isFromSaved) {
+      if (isFromDeleted) {
         // Hide fab jika dimuat dari indexed db
-        btnSave.style.display = 'none';
+        btnDelete.style.display = 'none';
 
         // ambil artikel lalu tampilkan
-        getSavedTeamById();
+        getDeletedTeamById();
 
       } else {
         var item = getTeamById();
       }
 
-      btnSave.onclick = function () {
+      btnDelete.onclick = function () {
         console.log("Tombol FAB di klik.");
         item.then(function (team) {
-          saveForLater(team);
+          deleteForLater(team);
         });
       };
     

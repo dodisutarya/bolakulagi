@@ -19,6 +19,17 @@ var dbPromised = idb.open("bolakulagi", 1, function(upgradeDb) {
       });
   }
 
+  function deleteForLater(team) {
+    dbPromise.then(function(db) {
+      var tx = db.transaction('teams', 'readwrite');
+      var store = tx.objectStore('teams');
+      store.delete(team);
+      return tx.complete;
+    }).then(function() {
+      console.log('Item deleted');
+    });
+  }
+
   function getAll() {
     return new Promise(function(resolve, reject) {
       dbPromised
